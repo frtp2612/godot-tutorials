@@ -5,12 +5,8 @@ export var speed = 4
 var target_position = Vector2.ZERO
 var movement_direction = Vector2.ZERO
 
-var snap_vector = Vector2.ZERO
-
-
 func _ready():
 	target_position = position
-	snap_vector = Vector2(Settings.TILE_SIZE, Settings.TILE_SIZE)
 
 func _process(delta):
 	if position == target_position:
@@ -34,10 +30,9 @@ func move(direction : Vector2) -> void:
 	if position.distance_to(target_position) > speed:
 		position += direction * speed
 	else:
-		position = position.snapped(snap_vector)
 		position = target_position
 		movement_direction = Vector2.ZERO
 
 func is_position_allowed():
 	var new_position = target_position / Settings.TILE_SIZE + movement_direction
-	return new_position.x > 0 && new_position.x < Settings.WORLD_GRID_COLUMNS && new_position.y > 0 && new_position.y < Settings.WORLD_GRID_ROWS
+	return new_position.x >= 0 && new_position.x < Settings.WORLD_GRID_COLUMNS && new_position.y >= 0 && new_position.y < Settings.WORLD_GRID_ROWS
